@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Finder</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Restaurant Finder</h1>
+
+        <!-- 搜索框 -->
+        <form action="/" method="POST" class="mb-3">
+            <div class="form-group">
+                <input type="text" class="form-control" name="search_query" placeholder="Search for restaurants">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <!-- 筛选框 -->
+        <form action="/filter" method="POST">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="categories">Categories:</label>
+                        <select multiple class="form-control" name="categories" id="categories">
+                            <option value="">Any</option>
+                            <option value="African">African</option>
+                            <option value="American (New)">American (New)</option>
+                            <option value="American (Traditional)">American (Traditional)</option>
+                            <option value="Art Galleries">Art Galleries</option>
+                            <option value="Asian Fusion">Asian Fusion</option>
+                            <option value="Bagels">Bagels</option>
+                            <option value="Bakeries">Bakeries</option>
+                            <option value="Barbeque">Barbeque</option>
+                            <option value="Bars">Bars</option>
+                            <option value="Beer Bar">Beer Bar</option>
+                            <option value="Beer Gardens">Beer Gardens</option>
+                            <option value="Beer, Wine & Spirits">Beer, Wine & Spirits</option>
+                            <option value="Beverage Store">Beverage Store</option>
+                            <option value="Boating">Boating</option>
+                            <option value="Bowling">Bowling</option>
+                            <option value="Brazilian">Brazilian</option>
+                            <option value="Breakfast & Brunch">Breakfast & Brunch</option>
+                            <option value="Breweries">Breweries</option>
+                            <option value="Brewpubs">Brewpubs</option>
+                            <option value="Bubble Tea">Bubble Tea</option>
+                            <option value="Buffets">Buffets</option>
+                            <option value="Burgers">Burgers</option>
+                            <option value="Cafes">Cafes</option>
+                            <option value="Cafeteria">Cafeteria</option>
+                            <option value="Cajun/Creole">Cajun/Creole</option>
+                            <option value="Car Wash">Car Wash</option>
+                            <option value="Caribbean">Caribbean</option>
+                            <option value="Caterers">Caterers</option>
+                            <option value="Cheese Shops">Cheese Shops</option>
+                            <option value="Cheesesteaks">Cheesesteaks</option>
+                            <option value="Chicken Shop">Chicken Shop</option>
+                            <option value="Chicken Wings">Chicken Wings</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="Cocktail Bars">Cocktail Bars</option>
+                            <option value="Coffee & Tea">Coffee & Tea</option>
+                            <option value="Coffee Roasteries">Coffee Roasteries</option>
+                            <option value="Comfort Food">Comfort Food</option>
+                            <option value="Convenience Stores">Convenience Stores</option>
+                            <option value="Cooking Schools">Cooking Schools</option>
+                            <option value="Creperies">Creperies</option>
+                            <option value="Cuban">Cuban</option>
+                            <option value="Cupcakes">Cupcakes</option>
+                            <option value="Dance Clubs">Dance Clubs</option>
+                            <option value="Delis">Delis</option>
+                            <option value="Desserts">Desserts</option>
+                            <option value="Dim Sum">Dim Sum</option>
+                            <option value="Diners">Diners</option>
+                            <option value="Dive Bars">Dive Bars</option>
+                            <option value="Donuts">Donuts</option>
+                            <option value="Empanadas">Empanadas</option>
+                            <option value="Ethiopian">Ethiopian</option>
+                            <option value="Falafel">Falafel</option>
+                            <option value="Fast Food">Fast Food</option>
+                            <option value="Fish & Chips">Fish & Chips</option>
+                            <option value="Food Court">Food Court</option>
+                            <option value="Food Delivery Services">Food Delivery Services</option>
+                            <option value="Food Stands">Food Stands</option>
+                            <option value="Food Trucks">Food Trucks</option>
+                            <option value="French">French</option>
+                            <option value="Gastropubs">Gastropubs</option>
+                            <option value="Gelato">Gelato</option>
+                            <option value="German">German</option>
+                            <option value="Gluten-Free">Gluten-Free</option>
+                            <option value="Greek">Greek</option>
+                            <option value="Grocery">Grocery</option>
+                            <option value="Halal">Halal</option>
+                            <option value="Hawaiian">Hawaiian</option>
+                            <option value="Himalayan/Nepalese">Himalayan/Nepalese</option>
+                            <option value="Hookah Bars">Hookah Bars</option>
+                            <option value="Hot Dogs">Hot Dogs</option>
+                            <option value="Hot Pot">Hot Pot</option>
+                            <option value="Hungarian">Hungarian</option>
+                            <option value="Ice Cream & Frozen Yogurt">Ice Cream & Frozen Yogurt</option>
+                            <option value="Indian">Indian</option>
+                            <option value="International Grocery">International Grocery</option>
+                            <option value="Irish">Irish</option>
+                            <option value="Italian">Italian</option>
+                            <option value="Japanese">Japanese</option>
+                            <option value="Jazz & Blues">Jazz & Blues</option>
+                            <option value="Juice Bars & Smoothies">Juice Bars & Smoothies</option>
+                            <option value="Korean">Korean</option>
+                            <option value="Kosher">Kosher</option>
+                            <option value="Latin American">Latin American</option>
+                            <option value="Lebanese">Lebanese</option>
+                            <option value="Lounges">Lounges</option>
+                            <option value="Meat Shops">Meat Shops</option>
+                            <option value="Mediterranean">Mediterranean</option>
+                            <option value="Mexican">Mexican</option>
+                            <option value="Middle Eastern">Middle Eastern</option>
+                            <option value="Moroccan">Moroccan</option>
+                            <option value="Music Venues">Music Venues</option>
+                            <option value="Musical Instruments & Teachers">Musical Instruments & Teachers</option>
+                            <option value="New Mexican Cuisine">New Mexican Cuisine</option>
+                            <option value="Noodles">Noodles</option>
+                            <option value="Pancakes">Pancakes</option>
+                            <option value="Pasta Shops">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <select class="form-control" name="price" id="price">
+                            <option value="">Any</option>
+                            <option value="$">$</option>
+                            <option value="$$">$$</option>
+                            <option value="$$$">$$$</option>
+                            <option value="$$$$">$$$$</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="rating">Minimum Rating:</label>
+                        <select class="form-control" name="rating" id="rating">
+                            <option value="">Any</option>
+                            <option value="0.5">0.5</option>
+                            <option value="1.0">1.0</option>
+                            <option value="1.5">1.5</option>
+                            <option value="2.0">2.0</option>
+                            <option value="2.5">2.5</option>
+                            <option value="3.0">3.0</option>
+                            <option value="3.5">3.5</option>
+                            <option value="4.0">4.0</option>
+                            <option value="4.5">4.5</option>
+                            <option value="5.0">5.0</option>
+                        </select>
+                    </div>
+                </div>                
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="review_count">Minimum Review Count:</label>
+                        <select class="form-control" name="review_count" id="review_count">
+                            <option value="">Any</option>
+                            <option value="10">10</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="70">70</option>
+                            <option value="100">100</option>
+                            <option value="300">300</option>
+                            <option value="500">500</option>
+                            <option value="500">More</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="transactions">Transactions (comma separated):</label>
+                        <select class="form-control" name="transactions" id="transactions">
+                            <option value="">Any</option>
+                            <option value="pickup">pickup</option>
+                            <option value="delivery">delivery</option>
+                            <option value="restaurant_reservation">restaurant_reservation</option>
+                        </select>                  
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sort_by">Sort By:</label>
+                        <select class="form-control" name="sort_by" id="sort_by">
+                            <option value="">None</option>
+                            <option value="name">Name</option>
+                            <option value="rating">Rating</option>
+                            <option value="review_count">Review Count</option>
+                            <option value="price">Price</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- 餐厅列表 -->
+            {% if restaurants %}
+            <div class="mt-4">
+                <h2>Restaurants</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Categories</th>
+                            <th>Rating</th>
+                            <th>Price</th>
+                            <th>Review Count</th>
+                            <th>Transactions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for restaurant in restaurants %}
+                        <tr>
+                            <td><a href="{{ restaurant.url }}" target="_blank">{{ restaurant.name }}</a></td>
+                            <td>{{ restaurant.categories }}</td>
+                            <td>{{ restaurant.rating }}</td>
+                            <td>{{ restaurant.price }}</td>
+                            <td>{{ restaurant.review_count }}</td>
+                            <td>{{ restaurant.transactions }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+            </div>
+        {% else %}
+        <p>No restaurants found!!!!!</p>
+        {% endif %}
+
+        <!-- 地图 -->
+        <div class="mt-5">
+            <h2>Map</h2>
+            <iframe src="{{ url_for('static', filename='map.html') }}" width="100%" height="500"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript代码可以在此处处理用户交互
+        const restaurantLinks = document.querySelectorAll('.restaurant-link');
+        restaurantLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const index = link.getAttribute('data-index');
+                // 发送请求以获取餐厅详细信息
+                fetch(`/details/${index}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // 在此处显示餐厅详细信息
+                        console.log(data);
+                        // 这里你可以使用模态框或其他方式显示详细信息
+                    });
+            });
+        });
+    </script>
+    <script>
+        // JavaScript代码可以在此处处理用户交互
+        const restaurantLinks = document.querySelectorAll('.restaurant-link');
+        restaurantLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const url = link.getAttribute('data-url');
+                // 在新标签页中打开餐厅的 Yelp 网址
+                window.open(url, '_blank');
+            });
+        });
+    </script>
+    
+    <!-- index.html -->
+    
+</body>
+</html>
