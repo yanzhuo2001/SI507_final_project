@@ -25,40 +25,6 @@ all_categories = [
         "Thai", "Tobacco Shops", "Turkish", "Vegan", "Vegetarian", "Venues & Event Spaces", "Vietnamese", "Waffles", "Wine Bars", "Wraps"
     ]
 
-def get_input(query1, query2):
-    result = None
-    while True:
-        judge = input(query2)
-        if judge.lower() == 'y':
-            if query2 == "Filter by categories? (y/n): ":
-                show_categories(all_categories)
-            result = input(query1)
-            if query1 == "Enter price ($, $$, $$$, or $$$$): " and result !='$' and result != '$$' and result != '$$$' and result != '$$$$':
-                print("Invalid choice. Please enter $, $$, $$$, or $$$$")
-            elif query1 == "Enter minimum rating (0-5): " and (float(result) < 0 or float(result) > 5):
-                print("Invalid choice. Please enter a number between 0 and 5.")
-            elif query1 == "Enter minimum review count: ":
-                try:
-                    user_input_as_int = int(result)
-                    if user_input_as_int > 0:
-                        break
-                    else:
-                        print("Invalid choice. Please enter a positive integer.")
-                except ValueError:
-                    print("Invalid choice. Please enter a positive integer.")
-            elif query1 == "Filter by transactions? (y/n): " and result != 'pickup' and result != 'delivery' and result != 'restaurant_reservation':
-                print("Invalid choice. Please enter pickup, delivery, or restaurant_reservation.")
-            elif query1 == "Enter sort by (name, rating, review_count, price): " and result != 'name' and result != 'rating' and result != 'review_count' and result != 'price':
-                print("Invalid choice. Please enter name, rating, review_count, or price.")
-            else:
-                break
-        elif judge.lower() == 'n':
-            break
-        else:
-            print("Invalid choice. Please enter y or n.")
-
-    return result
-
 def create_map(df, filename='map.html'):
     # Create a map object
     m = folium.Map(location=[42.2808, -83.7430], zoom_start=13)
@@ -74,13 +40,6 @@ def create_map(df, filename='map.html'):
 
     # Save to an HTML file
     m.save(filename)
-
-def show_categories(categories):
-    categories = sorted(categories)
-    for i, category in enumerate(categories, start=1):
-        print(category, end=", " if i % 8 != 0 else "\n")
-    if len(categories) % 8 != 0:
-        print("\n")
 
 def load_data(file_path):
     with open(file_path, 'r') as f:
@@ -117,6 +76,40 @@ def filter_restaurants(df, categories=None, price=None, rating=None, review_coun
         filtered_df = filtered_df.sort_values(by=sort_by, ascending=False)
     return filtered_df
 
+def get_input(query1, query2):
+    result = None
+    while True:
+        judge = input(query2)
+        if judge.lower() == 'y':
+            if query2 == "Filter by categories? (y/n): ":
+                show_categories(all_categories)
+            result = input(query1)
+            if query1 == "Enter price ($, $$, $$$, or $$$$): " and result !='$' and result != '$$' and result != '$$$' and result != '$$$$':
+                print("Invalid choice. Please enter $, $$, $$$, or $$$$")
+            elif query1 == "Enter minimum rating (0-5): " and (float(result) < 0 or float(result) > 5):
+                print("Invalid choice. Please enter a number between 0 and 5.")
+            elif query1 == "Enter minimum review count: ":
+                try:
+                    user_input_as_int = int(result)
+                    if user_input_as_int > 0:
+                        break
+                    else:
+                        print("Invalid choice. Please enter a positive integer.")
+                except ValueError:
+                    print("Invalid choice. Please enter a positive integer.")
+            elif query1 == "Filter by transactions? (y/n): " and result != 'pickup' and result != 'delivery' and result != 'restaurant_reservation':
+                print("Invalid choice. Please enter pickup, delivery, or restaurant_reservation.")
+            elif query1 == "Enter sort by (name, rating, review_count, price): " and result != 'name' and result != 'rating' and result != 'review_count' and result != 'price':
+                print("Invalid choice. Please enter name, rating, review_count, or price.")
+            else:
+                break
+        elif judge.lower() == 'n':
+            break
+        else:
+            print("Invalid choice. Please enter y or n.")
+
+    return result
+
 def show_restaurant_details(df, index):
     restaurant = df.iloc[index]
     for key, value in restaurant.items():
@@ -124,67 +117,11 @@ def show_restaurant_details(df, index):
     # Create a map for the single restaurant
     create_map(df.iloc[[index]])  # Pass a DataFrame containing only the selected restaurant
 
-# def local():
-#     pd.set_option('display.max_rows', None)  # 设置为None表示显示所有行
-#     pd.set_option('display.max_columns', None)  # 设置为None表示显示所有列
-#     pd.set_option('display.width', 5000)  # 设置显示的宽度，可以根据需要调整
-#     G, df = load_data('ann_arbor_restaurants.json')
-#     create_map(df)  # This will create a map with all restaurants
-#
-#     while True:
-#         print("1: Search Restaurants")
-#         print("2: Filter Restaurants")
-#         print("3: Show Restaurant Details")
-#         print("4: Exit")
-#         choice = input("Choose an option: ")
-#
-#
-#         if choice == '1':
-#             query = input("Enter search query: ")
-#             results = search_restaurants(df, query)
-#             print(results[['name', 'categories', 'rating', 'price']])
-#             create_map(results)
-#
-#         elif choice == '2':
-#             categories = (get_input("Enter categories (comma separated): ", "Filter by categories? (y/n): "))
-#             if categories != None:
-#                 categories = categories.split(',')
-#             price = get_input("Enter price ($, $$, $$$, or $$$$): ", "Filter by price? (y/n): ")
-#             rating = get_input("Enter minimum rating (0-5): ", "Filter by rating? (y/n): ")
-#             if rating != None:
-#                 rating= float(rating)
-#             review_count = get_input("Enter minimum review count: ", "Filter by review count? (y/n): ")
-#             if review_count != None:
-#                 review_count = int(review_count)
-#             transactions = get_input("Enter transactions (pickup, delivery, restaurant_reservation): ","Filter by transactions? (y/n): ")
-#             if transactions != None:
-#                 transactions=transactions.split(',')
-#             sort_by = get_input("Enter sort by (name, rating, review_count, price): ", "Sort results? (y/n): ")
-#
-#             results = filter_restaurants(df, categories, price, rating, review_count, transactions, sort_by)
-#             print(results[['name', 'categories', 'rating', 'price']])
-#             create_map(results)
-#
-#         elif choice == '3':
-#             while True:
-#                 print("This function only accepts the index of a restaurant as input.")
-#                 print("You can get the index of a restaurant by searching or filtering.")
-#                 input1 = input("Do you want to continue? (y/n): ").lower()
-#                 if input1 == 'y':
-#                     index = int(input("Enter restaurant index: "))
-#                     show_restaurant_details(df, index)
-#                     break
-#                 elif input1 == 'n':
-#                     break
-#                 else:
-#                     print("Invalid choice. Please enter y or n.")
-#
-#         elif choice == '4':
-#             break
-#
-#         else:
-#             print("Invalid choice. Please enter a number between 1 and 4.")
-#
-#         print()
-#
-# local()
+def show_categories(categories):
+    categories = sorted(categories)
+    for i, category in enumerate(categories, start=1):
+        print(category, end=", " if i % 8 != 0 else "\n")
+    if len(categories) % 8 != 0:
+        print("\n")
+
+
