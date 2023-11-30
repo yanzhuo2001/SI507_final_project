@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Finder</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
 </head>
 <body>
     <div class="container mt-5">
         <h1>Restaurant Finder</h1>
-        <button type="button" class="btn btn-secondary" onclick="resetPage()">Reset</button>
 
         <!-- 搜索框 -->
         <form action="/" method="POST" class="mb-3" id="search-form">
@@ -243,6 +243,8 @@
                 </div>
             </div>
         </form>
+
+        <button type="button" class="btn btn-secondary" onclick="resetPage()" id="reset">Reset</button>
 
         <!-- 餐厅列表 -->
             {% if restaurants %}
@@ -492,7 +494,16 @@
     </script>
     
     
-    <!-- index.html -->
-    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 Yanzhuo Cao. All Rights Reserved.</p>
+            <p>Follow me on:
+                <a href="https://github.com/yanzhuo2001" target="_blank">Github</a> |
+                <a href="www.linkedin.com/in/yanzhuo1029" target="_blank">LinkedIn</a> |
+            </p>
+        </div>
+    </footer>
+
 </body>
 </html>
