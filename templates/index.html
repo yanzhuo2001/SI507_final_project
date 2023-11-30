@@ -9,9 +9,10 @@
 <body>
     <div class="container mt-5">
         <h1>Restaurant Finder</h1>
+        <button type="button" class="btn btn-secondary" onclick="resetPage()">Reset</button>
 
         <!-- 搜索框 -->
-        <form action="/" method="POST" class="mb-3">
+        <form action="/" method="POST" class="mb-3" id="search-form">
             <div class="form-group">
                 <input type="text" class="form-control" name="search_query" placeholder="Search for restaurants">
             </div>
@@ -19,7 +20,7 @@
         </form>
 
         <!-- 筛选框 -->
-        <form action="/filter" method="POST">
+        <form action="/filter" method="POST" id="filter-form">
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
@@ -121,7 +122,48 @@
                             <option value="New Mexican Cuisine">New Mexican Cuisine</option>
                             <option value="Noodles">Noodles</option>
                             <option value="Pancakes">Pancakes</option>
-                            <option value="Pasta Shops">
+                            <option value="Pasta Shops">Pasta Shops</option>
+                            <option value="Persian/Iranian">Persian/Iranian</option>
+                            <option value="Pizza">Pizza</option>
+                            <option value="Poke">Poke</option>
+                            <option value="Polish">Polish</option>
+                            <option value="Pool Halls">Pool Halls</option>
+                            <option value="Pop-Up Restaurants">Pop-Up Restaurants</option>
+                            <option value="Pubs">Pubs</option>
+                            <option value="Ramen">Ramen</option>
+                            <option value="Restaurants">Restaurants</option>
+                            <option value="Russian">Russian</option>
+                            <option value="Salad">Salad</option>
+                            <option value="Sandwiches">Sandwiches</option>
+                            <option value="Seafood">Seafood</option>
+                            <option value="Seafood Markets">Seafood Markets</option>
+                            <option value="Singaporean">Singaporean</option>
+                            <option value="Soul Food">Soul Food</option>
+                            <option value="Soup">Soup</option>
+                            <option value="Southern">Southern</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="Specialty Food">Specialty Food</option>
+                            <option value="Sports Bars">Sports Bars</option>
+                            <option value="Steakhouses">Steakhouses</option>
+                            <option value="Street Vendors">Street Vendors</option>
+                            <option value="Supper Clubs">Supper Clubs</option>
+                            <option value="Sushi Bars">Sushi Bars</option>
+                            <option value="Szechuan">Szechuan</option>
+                            <option value="Tacos">Tacos</option>
+                            <option value="Taiwanese">Taiwanese</option>
+                            <option value="Tapas Bars">Tapas Bars</option>
+                            <option value="Tapas/Small Plates">Tapas/Small Plates</option>
+                            <option value="Tex-Mex">Tex-Mex</option>
+                            <option value="Thai">Thai</option>
+                            <option value="Tobacco Shops">Tobacco Shops</option>
+                            <option value="Turkish">Turkish</option>
+                            <option value="Vegan">Vegan</option>
+                            <option value="Vegetarian">Vegetarian</option>
+                            <option value="Venues & Event Spaces">Venues & Event Spaces</option>
+                            <option value="Vietnamese">Vietnamese</option>
+                            <option value="Waffles">Waffles</option>
+                            <option value="Wine Bars">Wine Bars</option>
+                            <option value="Wraps">Wraps</option>
                         </select>
                     </div>
                 </div>
@@ -235,6 +277,17 @@
         <p>No restaurants found!!!!!</p>
         {% endif %}
 
+        <!-- 在这里添加分页控件 -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination" id="pagination">
+                {% for i in range(1, total_pages + 1) %}
+                <li class="page-item {% if i == current_page %}active{% endif %}">
+                    <a class="page-link" href="#" onclick="loadPage({{ i }})">{{ i }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
+
         <!-- 地图 -->
         <div class="mt-5">
             <h2>Map</h2>
@@ -243,35 +296,201 @@
     </div>
 
     <script>
-        // JavaScript代码可以在此处处理用户交互
-        const restaurantLinks = document.querySelectorAll('.restaurant-link');
-        restaurantLinks.forEach(link => {
-            link.addEventListener('click', (event) => {
-                event.preventDefault();
-                const index = link.getAttribute('data-index');
-                // 发送请求以获取餐厅详细信息
-                fetch(`/details/${index}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // 在此处显示餐厅详细信息
-                        console.log(data);
-                        // 这里你可以使用模态框或其他方式显示详细信息
-                    });
+        // 定义状态对象
+        var currentState = {
+            query: '',
+            categories: '',
+            price: '',
+            rating: '',
+            review_count: '',
+            transactions: '',
+            sort_by: '',
+            page: 1,
+            totalPages: 0 // 添加这个属性来存储总页数
+        };
+    
+        // 更新状态并搜索
+        function updateStateAndSearch() {
+            // 从表单元素中更新状态
+            currentState.query = document.querySelector('[name="search_query"]').value;
+            currentState.categories = Array.from(document.querySelector('#categories').selectedOptions)
+            .map(option => option.value)
+            .join(';');
+            currentState.price = document.querySelector('[name="price"]').value;
+            currentState.rating = document.querySelector('[name="rating"]').value;
+            currentState.review_count = document.querySelector('[name="review_count"]').value;
+            currentState.transactions = Array.from(document.querySelector('#transactions').selectedOptions)
+            .map(option => option.value)
+            .join(';');
+            currentState.sort_by = document.querySelector('[name="sort_by"]').value;
+    
+            // 执行搜索
+            loadPage(1);
+        }
+    
+        // 加载指定页面
+        function loadPage(page) {
+            currentState.page = page;
+            const queryParams = new URLSearchParams(currentState).toString();
+            fetch(`/api/restaurants?${queryParams}`)
+                .then(response => response.json())
+                .then(data => {
+                    updateRestaurantsTable(data.restaurants);
+                    updatePagination(data.current_page, data.total_pages);
+                    updateMap(data.map_url);  // 使用新的地图 URL 更新地图
+                    currentState.totalPages = data.total_pages; // 更新总页数
+                    bindRestaurantDetails();
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    
+        // 更新餐厅表格
+        function updateRestaurantsTable(restaurants) {
+            const tableBody = document.querySelector('.table tbody');
+            tableBody.innerHTML = '';
+            restaurants.forEach(restaurant => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td><a href="${restaurant.url}" target="_blank">${restaurant.name}</a></td>
+                        <td>${restaurant.categories}</td>
+                        <td>${restaurant.rating}</td>
+                        <td>${restaurant.price}</td>
+                        <td>${restaurant.review_count}</td>
+                        <td>${restaurant.transactions}</td>
+                    </tr>
+                `;
             });
-        });
-    </script>
-    <script>
-        // JavaScript代码可以在此处处理用户交互
-        const restaurantLinks = document.querySelectorAll('.restaurant-link');
-        restaurantLinks.forEach(link => {
-            link.addEventListener('click', (event) => {
-                event.preventDefault();
-                const url = link.getAttribute('data-url');
-                // 在新标签页中打开餐厅的 Yelp 网址
-                window.open(url, '_blank');
+        }
+
+        // 更新地图的函数
+        function updateMap(mapUrl) {
+            const mapIframe = document.querySelector('iframe');
+            mapIframe.src = mapUrl;
+        }
+    
+        // 更新分页控件
+        function updatePagination(currentPage, totalPages) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            const maxPagesToShow = 5; // 显示的最大页码数量
+        
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+        
+            // 确保始终显示5个页码（在可能的情况下）
+            if (endPage - startPage < maxPagesToShow - 1) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
+            }
+        
+            // 添加“上一页”按钮
+            pagination.innerHTML += `
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="loadPage(${currentPage - 1})">Previous</a>
+                </li>
+            `;
+        
+            // 添加页码和省略号
+            if (startPage > 1) {
+                pagination.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="loadPage(1)">1</a></li>`;
+                if (startPage > 2) {
+                    pagination.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+            }
+        
+            for (let i = startPage; i <= endPage; i++) {
+                pagination.innerHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="loadPage(${i})">${i}</a>
+                    </li>
+                `;
+            }
+        
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    pagination.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+                pagination.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="loadPage(${totalPages})">${totalPages}</a></li>`;
+            }
+        
+            // 添加“下一页”按钮
+            pagination.innerHTML += `
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="loadPage(${currentPage + 1})">Next</a>
+                </li>
+            `;
+        
+            // 添加页码跳转输入框
+            pagination.innerHTML += `
+                <li class="page-item">
+                    <input type="number" id="page-number-input" min="1" max="${totalPages}" placeholder="${currentPage}">
+                    <button onclick="jumpToPage()">Go</button>
+                </li>
+            `;
+        }
+        
+        // 跳转到指定页码的函数
+        function jumpToPage() {
+            const pageNumber = parseInt(document.getElementById('page-number-input').value);
+            if (pageNumber && pageNumber >= 1 && pageNumber <= currentState.totalPages) {
+                loadPage(pageNumber);
+            }
+        }     
+        
+    
+        // 绑定餐厅详细信息的点击事件
+        function bindRestaurantDetails() {
+            const restaurantLinks = document.querySelectorAll('.restaurant-link');
+            restaurantLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const index = link.getAttribute('data-index');
+                    fetch(`/details/${index}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            // 在此处显示餐厅详细信息
+                        });
+                });
             });
+        }
+    
+        // 重置页面
+        function resetPage() {
+            currentState = {
+                query: '',
+                categories: '',
+                price: '',
+                rating: '',
+                review_count: '',
+                transactions: '',
+                sort_by: '',
+                page: 1
+            };
+            document.querySelector('[name="search_query"]').value = '';
+            document.querySelector('[name="categories"]').value = '';
+            document.querySelector('[name="price"]').value = '';
+            document.querySelector('[name="rating"]').value = '';
+            document.querySelector('[name="review_count"]').value = '';
+            document.querySelector('[name="transactions"]').value = '';
+            document.querySelector('[name="sort_by"]').value = '';
+            loadPage(1);
+        }
+    
+        // 绑定表单事件
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            updateStateAndSearch();
         });
+    
+        document.getElementById('filter-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            updateStateAndSearch();
+        });
+    
+        // 初始化页面
+        loadPage(1);
     </script>
+    
     
     <!-- index.html -->
     
