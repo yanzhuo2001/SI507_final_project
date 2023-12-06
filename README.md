@@ -33,6 +33,7 @@ The convert_json_map.py file imports the networkx library. This library is speci
 2. Graphs as Data Structures:
 
 Nodes: In this project, nodes in the graphs represent individual entities such as restaurants, based on the context of the Yelp data.
+
 Edges: The relationships or connections between these entities (restaurants) are represented as edges in the graph.
 
 3. Graph Functionality:
