@@ -9,9 +9,9 @@ Search specific restaurants and filter out certain types of restaurants in Ann A
 2. Run graph_json.py to get the graph json file graph.json.
 3. Run app.py to start the local user and get a web page, then you can perform the actions of search and filter. (You may need to get a new Google API key by yourself and replce my key with it on the Google API website)
 4. You can either search the name of restaurants directly, filter out certain types of restaurants as you like, or do both at the same time.
-5. If you want to reset all the values, you don't need to refesh the page. Instead, just click the "Reset" button.
-6. If you want to see the details of certain restauran in the result list, you can just click its name, and it will redirect you to the corresponding page on the Yelp website.
-7. If you want to see the details of certain restauran on the map, you can just click the position mark and then its name, and it will redirect you to the corresponding page on the Yelp website.
+5. If you want to reset all the values, you don't need to refresh the page. Instead, you just need to click the "Reset" button.
+6. If you want to see the details of certain restaurant in the result list, you can just click its name, and it will redirect you to the corresponding page on the Yelp website.
+7. If you want to see the details of certain restaurant on the map, you can just click the position mark and then its name, and it will redirect you to the corresponding page on the Yelp website.
 
 Ps1: plot_graph.py is used to generate an overview of price, ranges, ratings and categories of all restaurants in Ann Arbor.
 
