@@ -13,7 +13,9 @@ Search specific restaurants and filter out certain types of restaurants in Ann A
 6. If you want to see the details of certain restauran on the map, you can just click the position mark and then its name, and it will redirect you to the corresponding page on the Yelp website.
 
 Ps1: plot_graph.py is used to generate an overview of price, ranges, ratings and categories of all restaurants in Ann Arbor.
+
 Ps2: all_xxx.py is used to see all kinds of categories, transactions, review counts of all restaurants in Ann Arbor and save the result in xxx.txt file. Then I can use the results to design the filter forms in web page. You don't need to run them to perform action of search and filter.
+
 Ps3: The result list may be very long, so I split it by pages, with each page containing ten items. You can go to different pages by clicking the page numbers, or just type in a page number and click "Go" button.
 
 An example output will be like this:
