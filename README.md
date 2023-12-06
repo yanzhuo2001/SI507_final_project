@@ -6,7 +6,7 @@ Search specific restaurants and filter out certain types of restaurants in Ann A
 
 # How to interact with this program.
 1. Run Yelp.py to get the json file ann_arbor_restaurants.json. (You may need to get a new Yelp API key by yourself and replce my key with it on the Yelp Developers website)
-2. Run app.py to start the local user and get a web page, then you can perform the actions of search and filter.
+2. Run app.py to start the local user and get a web page, then you can perform the actions of search and filter. (You may need to get a new Google API key by yourself and replce my key with it on the Google API website)
 3. You can either search the name of restaurants directly, filter out certain types of restaurants as you like, or do both at the same time.
 4. If you want to reset all the values, you don't need to refesh the page. Instead, just click the "Reset" button.
 5. If you want to see the details of certain restauran in the result list, you can just click its name, and it will redirect you to the corresponding page on the Yelp website.
