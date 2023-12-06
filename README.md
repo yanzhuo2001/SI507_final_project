@@ -4,6 +4,10 @@ This is the final project of course SI 507, University of Michigan.
 # Aim of this project 
 Search specific restaurants and filter out certain types of restaurants in Ann Arbor, Michigan.
 
+Display the result restaurants in the form of paginated list and user-interacted graph.
+
+Allow users to go to corresponding Yelp page directly by clicking names on the list or graph.
+
 # How to interact with the program.
 1. Run Yelp.py to get the json file ann_arbor_restaurants.json. (You may need to get a new Yelp API key by yourself and replace my key with it on the Yelp Developers website)
 2. Run graph_json.py to get the graph json file graph.json.
