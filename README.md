@@ -5,7 +5,7 @@ This is the final project of course SI 507, University of Michigan.
 Search specific restaurants and filter out certain types of restaurants in Ann Arbor, Michigan.
 
 # How to interact with the program.
-1. Run Yelp.py to get the json file ann_arbor_restaurants.json. (You may need to get a new Yelp API key by yourself and replce my key with it on the Yelp Developers website)
+1. Run Yelp.py to get the json file ann_arbor_restaurants.json. (You may need to get a new Yelp API key by yourself and replace my key with it on the Yelp Developers website)
 2. Run graph_json.py to get the graph json file graph.json.
 3. Run app.py to start the local user and get a web page, then you can perform the actions of search and filter. (You may need to get a new Google API key by yourself and replce my key with it on the Google API website)
 4. You can either search the name of restaurants directly, filter out certain types of restaurants as you like, or do both at the same time.
